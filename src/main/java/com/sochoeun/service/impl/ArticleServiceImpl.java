@@ -3,10 +3,13 @@ package com.sochoeun.service.impl;
 import com.sochoeun.entity.Article;
 import com.sochoeun.entity.Category;
 import com.sochoeun.exception.NotFoundException;
+import com.sochoeun.pagination.PageUtil;
 import com.sochoeun.repository.ArticleRepository;
 import com.sochoeun.service.ArticleService;
 import com.sochoeun.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,8 +37,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> getArticlesByCategoryId(Integer categoryId) {
-        return articleRepository.findAllByCategory_Id(categoryId);
+    public Page<Article> getArticlesByCategoryId(Integer categoryId,Integer pageNo,Integer pageSize) {
+        Pageable pageable = PageUtil.getPageable(pageNo,pageSize);
+        return articleRepository.findAllByCategory_Id(categoryId,pageable);
     }
 
     @Override
