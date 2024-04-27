@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "contents")
@@ -14,9 +15,10 @@ public class Content {
     private Integer id;
     private String title;
     private String description;
-    // Image image;
     private LocalDate createAt;
     @ManyToOne
     @JoinColumn(name = "article_id")
     private Article article;
+    @Transient
+    private List<Image> imageList;
 }

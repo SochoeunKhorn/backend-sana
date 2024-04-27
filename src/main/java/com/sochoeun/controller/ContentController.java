@@ -31,6 +31,10 @@ public class ContentController {
         PageDTO pageDTO = new PageDTO(pageable);
         return ResponseEntity.ok(pageDTO);
     }
+    @GetMapping("/{id}/images")
+    public ResponseEntity<?> getAllImagesContent(@PathVariable("id")Integer id){
+        return ResponseEntity.ok(contentService.getAllImagesContent(id));
+    }
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable("id")Integer id,@RequestBody Content content){
         Content update = contentService.update(id, content);
@@ -41,4 +45,8 @@ public class ContentController {
         contentService.delete(id);
         return ResponseEntity.ok().build();
     }
+    /*@GetMapping("{contentId}/images")
+    public ResponseEntity<?> getAllImagesContent(@PathVariable("contentId")Integer contentId){
+
+    }*/
 }

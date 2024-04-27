@@ -2,10 +2,12 @@ package com.sochoeun.service.impl;
 
 import com.sochoeun.entity.Article;
 import com.sochoeun.entity.Content;
+import com.sochoeun.entity.Image;
 import com.sochoeun.exception.NotFoundException;
 import com.sochoeun.pagination.PageDTO;
 import com.sochoeun.pagination.PageUtil;
 import com.sochoeun.repository.ContentRepository;
+import com.sochoeun.repository.ImageRepository;
 import com.sochoeun.service.ArticleService;
 import com.sochoeun.service.ContentService;
 import lombok.RequiredArgsConstructor;
@@ -20,15 +22,27 @@ import java.util.List;
 public class ContentServiceImpl implements ContentService {
     private final ContentRepository contentRepository;
     private final ArticleService articleService;
+    private final ImageRepository imageRepository;
     @Override
     public Content create(Content content) {
         articleService.getArticle(content.getArticle().getId());
-        return contentRepository.save(content);
+        Content ct = contentRepository.save(content);
+        if(content.getId() != 0){
+            content.getImageList().forEach(image -> {
+                image.setContentId(ct.getId());
+                imageRepository.save(image);
+            });
+        }
+        return ct;
     }
 
     @Override
     public List<Content> getContents() {
-        return contentRepository.findAll();
+        List<Content> all = contentRepository.findAll();
+        all.forEach(image->{
+            image.setImageList( getImages(image.getId()));
+        });
+        return all;
     }
 
     @Override
@@ -59,5 +73,17 @@ public class ContentServiceImpl implements ContentService {
         if(getContent(id) != null){
             contentRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public List<Image> getImages(Integer contentId) {
+        return imageRepository.findAllByContentId(contentId);
+    }
+
+    @Override
+    public Content getAllImagesContent(Integer contentId) {
+        Content content = getContent(contentId);
+        content.setImageList(getImages(contentId));
+        return content;
     }
 }

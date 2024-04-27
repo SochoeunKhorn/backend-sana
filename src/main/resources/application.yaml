@@ -8,9 +8,22 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 1000MB
+      max-request-size: 1000MB
 # swagger-ui custom path
 # springdoc.swagger-ui.path=/swagger-ui.html
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+server:
+  error:
+    whitelabel:
+      enabled: false
+    path: /user/error
+
+
+
 

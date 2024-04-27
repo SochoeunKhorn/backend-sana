@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ContentRepository extends JpaRepository<Content,Integer> {
     Page<Content> findAllByArticle_Id(Integer articleId, Pageable pageable);
+
 }
