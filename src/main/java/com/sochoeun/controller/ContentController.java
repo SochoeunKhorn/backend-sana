@@ -19,6 +19,7 @@ public class ContentController {
         return ResponseEntity.ok(contentService.create(content));
     }
 
+
     @GetMapping
     public ResponseEntity<?> getContents(){
         return ResponseEntity.ok(contentService.getContents());
@@ -45,8 +46,5 @@ public class ContentController {
         contentService.delete(id);
         return ResponseEntity.ok().build();
     }
-    /*@GetMapping("{contentId}/images")
-    public ResponseEntity<?> getAllImagesContent(@PathVariable("contentId")Integer contentId){
 
-    }*/
 }

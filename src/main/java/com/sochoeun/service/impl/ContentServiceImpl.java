@@ -1,10 +1,8 @@
 package com.sochoeun.service.impl;
 
-import com.sochoeun.entity.Article;
 import com.sochoeun.entity.Content;
 import com.sochoeun.entity.Image;
 import com.sochoeun.exception.NotFoundException;
-import com.sochoeun.pagination.PageDTO;
 import com.sochoeun.pagination.PageUtil;
 import com.sochoeun.repository.ContentRepository;
 import com.sochoeun.repository.ImageRepository;
@@ -86,4 +84,5 @@ public class ContentServiceImpl implements ContentService {
         content.setImageList(getImages(contentId));
         return content;
     }
+
 }
