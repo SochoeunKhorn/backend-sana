@@ -1,0 +1,8 @@
+== EndPoint ==
+1.  GET:: /categories
+2.  GET:: /articles
+    GET:: /articles/category/1  -> get All Article By Category ID=1
+3.  GET:: /contents
+    GET:: /contents/article/1   -> get All Content By Article ID=1
+    GET:: /contents/category/1
+4.  GTE:: /slides

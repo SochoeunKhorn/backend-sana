@@ -1,14 +1,12 @@
 package com.sochoeun.controller;
 
 import com.sochoeun.entity.Article;
-import com.sochoeun.pagination.PageDTO;
+import com.sochoeun.pagination.PageResponse;
 import com.sochoeun.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -29,8 +27,8 @@ public class ArticleController {
                                                    @RequestParam(value = "pageNo",required = false,defaultValue = "0") Integer pageNo,
                                                    @RequestParam(value = "pageSize",required = false,defaultValue = "5") Integer pageSize){
         Page<Article>page=articleService.getArticlesByCategoryId(category_id,pageNo,pageSize);
-        PageDTO pageDTO = new PageDTO(page);
-        return ResponseEntity.ok(pageDTO);
+        PageResponse pageResponse = new PageResponse(page);
+        return ResponseEntity.ok(pageResponse);
     }
     @GetMapping("/{id}")
     public ResponseEntity<?> getArticle(@PathVariable("id") Integer id){

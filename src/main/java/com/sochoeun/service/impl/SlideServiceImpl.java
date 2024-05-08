@@ -28,4 +28,20 @@ public class SlideServiceImpl implements SlideService {
     public List<Slide> getSlides() {
         return slideRepository.findAll();
     }
+
+    @Override
+    public void update(Integer id,Slide slide) {
+        Slide update = getSlide(id);
+        update.setName(slide.getName());
+        update.setDescription(slide.getDescription());
+        update.setImageUrl(slide.getImageUrl());
+        slideRepository.save(update);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        if(getSlide(id) != null){
+            slideRepository.deleteById(id);
+        }
+    }
 }
