@@ -1,7 +1,7 @@
 package com.sochoeun.controller;
 
 import com.sochoeun.entity.Content;
-import com.sochoeun.pagination.PageDTO;
+import com.sochoeun.pagination.PageResponse;
 import com.sochoeun.service.ContentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,8 +29,8 @@ public class ContentController {
                                          @RequestParam(value = "pageNo",required = false,defaultValue = "0") Integer pageNo,
                                          @RequestParam(value = "pageSize",required = false,defaultValue = "5") Integer pageSize){
         Page<Content> pageable = contentService.getPageable(id, pageNo, pageSize);
-        PageDTO pageDTO = new PageDTO(pageable);
-        return ResponseEntity.ok(pageDTO);
+        PageResponse pageResponse = new PageResponse(pageable);
+        return ResponseEntity.ok(pageResponse);
     }
     @GetMapping("/{id}/images")
     public ResponseEntity<?> getAllImagesContent(@PathVariable("id")Integer id){

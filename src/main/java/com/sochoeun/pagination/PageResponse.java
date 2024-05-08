@@ -6,13 +6,13 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 @Data
-public class PageDTO {
+public class PageResponse {
     private List<?> list;
-    private PaginationDTO pagination;
+    private Pagination pagination;
 
-    public PageDTO(Page<?> page){
+    public PageResponse(Page<?> page){
         this.list = page.getContent();
-        this.pagination = PaginationDTO.builder()
+        this.pagination = Pagination.builder()
                 .pageSize(page.getSize())
                 .pageNumber(page.getNumber()+1)
                 .totalPages(page.getTotalPages())

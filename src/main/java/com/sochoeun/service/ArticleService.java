@@ -11,4 +11,5 @@ public interface ArticleService {
     Page<Article> getArticlesByCategoryId(Integer categoryId,Integer pageNo,Integer pageSize);
     Article getArticle(Integer id);
     void delete(Integer id);
+
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class PaginationDTO {
+public class Pagination {
     private int pageSize;
     private int pageNumber;
     private int totalPages;
