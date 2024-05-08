@@ -2,10 +2,12 @@ package com.sochoeun.service.impl;
 
 import com.sochoeun.entity.Content;
 import com.sochoeun.entity.Image;
+import com.sochoeun.entity.Media;
 import com.sochoeun.exception.NotFoundException;
 import com.sochoeun.pagination.PageUtil;
 import com.sochoeun.repository.ContentRepository;
 import com.sochoeun.repository.ImageRepository;
+import com.sochoeun.repository.MediaRepository;
 import com.sochoeun.service.ArticleService;
 import com.sochoeun.service.ContentService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class ContentServiceImpl implements ContentService {
     private final ContentRepository contentRepository;
     private final ArticleService articleService;
     private final ImageRepository imageRepository;
+    private final MediaRepository mediaRepository;
     @Override
     public Content create(Content content) {
         articleService.getArticle(content.getArticle().getId());
@@ -29,6 +32,10 @@ public class ContentServiceImpl implements ContentService {
             content.getImageList().forEach(image -> {
                 image.setContentId(ct.getId());
                 imageRepository.save(image);
+            });
+            content.getMediaList().forEach(media -> {
+                media.setContentId(ct.getId());
+                mediaRepository.save(media);
             });
         }
         return ct;
@@ -39,6 +46,9 @@ public class ContentServiceImpl implements ContentService {
         List<Content> all = contentRepository.findAll();
         all.forEach(image->{
             image.setImageList( getImages(image.getId()));
+        });
+        all.forEach(media->{
+            media.setMediaList(getMedias(media.getId()));
         });
         return all;
     }
@@ -76,6 +86,11 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public List<Image> getImages(Integer contentId) {
         return imageRepository.findAllByContentId(contentId);
+    }
+
+    @Override
+    public List<Media> getMedias(Integer contentId) {
+        return mediaRepository.findAllByContentId(contentId);
     }
 
     @Override
