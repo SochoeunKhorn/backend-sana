@@ -9,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+@Slf4j
 public class TokenVerify extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(
@@ -31,13 +32,14 @@ public class TokenVerify extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
 
         // if token inValid
-        if( authHeader== null || authHeader.startsWith("Bearer")){
+        if( authHeader == null || !authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request,response);
             return;
         }
-
+        log.info(authHeader);
         // get token
-        String token = authHeader.substring(7);
+        String token = authHeader.replace("Bearer","");
+
         String secretKey = "dofwsjfoekskdfjowjlksdjfaweosdlf99djfljsdafo392jsdfjaoweifkasljfwe0";
 
         // extract token
@@ -55,6 +57,7 @@ public class TokenVerify extends OncePerRequestFilter {
                 .collect(Collectors.toSet());
         Authentication authentication =
                 new UsernamePasswordAuthenticationToken(username,null,authority);
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request,response);
     }

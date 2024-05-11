@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,7 +30,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilter(new JwtFilter(authenticationManager(authenticationConfiguration)))
-                //.addFilterAfter(new TokenVerify(),JwtFilter.class)
+                .addFilterAfter(new TokenVerify(),JwtFilter.class)
                 .authorizeHttpRequests(authorize ->{
                         authorize
                                 .anyRequest()
