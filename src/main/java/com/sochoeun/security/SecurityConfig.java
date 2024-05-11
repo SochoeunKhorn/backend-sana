@@ -1,6 +1,7 @@
 package com.sochoeun.security;
 
 import com.sochoeun.security.jwtUtil.JwtFilter;
+import com.sochoeun.security.jwtUtil.TokenVerify;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilter(new JwtFilter(authenticationManager(authenticationConfiguration)))
+                //.addFilterAfter(new TokenVerify(),JwtFilter.class)
                 .authorizeHttpRequests(authorize ->{
                         authorize
                                 .anyRequest()
