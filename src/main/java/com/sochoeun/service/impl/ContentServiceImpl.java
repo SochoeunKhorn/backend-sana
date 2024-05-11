@@ -62,14 +62,20 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public Content getContent(Integer id) {
-        return contentRepository.findById(id).orElseThrow(()->new NotFoundException("Content",id));
+        Content content = contentRepository.findById(id).orElseThrow(() -> new NotFoundException("Content", id));
+        content.setImageList(imageRepository.findAllByContentId(id));
+        content.setMediaList(mediaRepository.findAllByContentId(id));
+        return content;
     }
 
     @Override
     public Content update(Integer id, Content content) {
         articleService.getArticle(content.getArticle().getId());
+
         Content update = getContent(id);
+
         update.setArticle(articleService.getArticle(content.getArticle().getId()));
+
         update.setTitle(content.getTitle());
         update.setDescription(content.getDescription());
         update.setCreateAt(update.getCreateAt());
@@ -99,5 +105,24 @@ public class ContentServiceImpl implements ContentService {
         content.setImageList(getImages(contentId));
         return content;
     }
+    // Upload Images
+
+    @Override
+    public void uploadImage(Image image) {
+        if(getContent(image.getContentId()) != null){
+            imageRepository.save(image);
+        }
+    }
+
+    // upload media
+    @Override
+    public void uploadMedia(Media media) {
+        if(getContent(media.getContentId()) != null){
+            mediaRepository.save(media);
+        }
+
+    }
+
+
 
 }

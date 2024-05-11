@@ -18,4 +18,8 @@ public interface ContentService {
     List<Media> getMedias(Integer contentId);
     Content getAllImagesContent(Integer contentId);
 
+    // images
+    void uploadImage(Image image);
+    void uploadMedia(Media media);
+
 }

@@ -6,11 +6,13 @@ import com.sochoeun.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/articles")
+@PreAuthorize("hasRole('ADMIN')")
 public class ArticleController {
     private final ArticleService articleService;
     @PostMapping
@@ -19,6 +21,7 @@ public class ArticleController {
         return ResponseEntity.ok(article);
     }
     @GetMapping
+    @PreAuthorize("hasRole('STAFF')")
     public ResponseEntity<?> getArticles(){
         return ResponseEntity.ok(articleService.getArticles());
     }

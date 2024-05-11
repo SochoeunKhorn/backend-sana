@@ -19,10 +19,13 @@ public class ContentController {
         return ResponseEntity.ok(contentService.create(content));
     }
 
-
     @GetMapping
     public ResponseEntity<?> getContents(){
         return ResponseEntity.ok(contentService.getContents());
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getContent(@PathVariable("id")Integer id){
+        return ResponseEntity.ok(contentService.getContent(id));
     }
     @GetMapping("/{id}/article")
     public ResponseEntity<?> getPageable(@PathVariable("id")Integer id,
@@ -44,7 +47,7 @@ public class ContentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id")Integer id){
         contentService.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Content ID = %d is deleted".formatted(id));
     }
 
 }
