@@ -21,4 +21,6 @@ public class Content {
     private Article article;
     @Transient
     private List<Image> imageList;
+    @Transient
+    private List<Media> mediaList;
 }

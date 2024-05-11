@@ -2,10 +2,12 @@ package com.sochoeun.service.impl;
 
 import com.sochoeun.entity.Content;
 import com.sochoeun.entity.Image;
+import com.sochoeun.entity.Media;
 import com.sochoeun.exception.NotFoundException;
 import com.sochoeun.pagination.PageUtil;
 import com.sochoeun.repository.ContentRepository;
 import com.sochoeun.repository.ImageRepository;
+import com.sochoeun.repository.MediaRepository;
 import com.sochoeun.service.ArticleService;
 import com.sochoeun.service.ContentService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class ContentServiceImpl implements ContentService {
     private final ContentRepository contentRepository;
     private final ArticleService articleService;
     private final ImageRepository imageRepository;
+    private final MediaRepository mediaRepository;
     @Override
     public Content create(Content content) {
         articleService.getArticle(content.getArticle().getId());
@@ -29,6 +32,10 @@ public class ContentServiceImpl implements ContentService {
             content.getImageList().forEach(image -> {
                 image.setContentId(ct.getId());
                 imageRepository.save(image);
+            });
+            content.getMediaList().forEach(media -> {
+                media.setContentId(ct.getId());
+                mediaRepository.save(media);
             });
         }
         return ct;
@@ -39,6 +46,9 @@ public class ContentServiceImpl implements ContentService {
         List<Content> all = contentRepository.findAll();
         all.forEach(image->{
             image.setImageList( getImages(image.getId()));
+        });
+        all.forEach(media->{
+            media.setMediaList(getMedias(media.getId()));
         });
         return all;
     }
@@ -52,14 +62,20 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public Content getContent(Integer id) {
-        return contentRepository.findById(id).orElseThrow(()->new NotFoundException("Content",id));
+        Content content = contentRepository.findById(id).orElseThrow(() -> new NotFoundException("Content", id));
+        content.setImageList(imageRepository.findAllByContentId(id));
+        content.setMediaList(mediaRepository.findAllByContentId(id));
+        return content;
     }
 
     @Override
     public Content update(Integer id, Content content) {
         articleService.getArticle(content.getArticle().getId());
+
         Content update = getContent(id);
+
         update.setArticle(articleService.getArticle(content.getArticle().getId()));
+
         update.setTitle(content.getTitle());
         update.setDescription(content.getDescription());
         update.setCreateAt(update.getCreateAt());
@@ -79,10 +95,34 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    public List<Media> getMedias(Integer contentId) {
+        return mediaRepository.findAllByContentId(contentId);
+    }
+
+    @Override
     public Content getAllImagesContent(Integer contentId) {
         Content content = getContent(contentId);
         content.setImageList(getImages(contentId));
         return content;
     }
+    // Upload Images
+
+    @Override
+    public void uploadImage(Image image) {
+        if(getContent(image.getContentId()) != null){
+            imageRepository.save(image);
+        }
+    }
+
+    // upload media
+    @Override
+    public void uploadMedia(Media media) {
+        if(getContent(media.getContentId()) != null){
+            mediaRepository.save(media);
+        }
+
+    }
+
+
 
 }
