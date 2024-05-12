@@ -3,6 +3,7 @@ package com.sochoeun.controller;
 import com.sochoeun.entity.Article;
 import com.sochoeun.pagination.PageResponse;
 import com.sochoeun.service.ArticleService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -12,16 +13,15 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/articles")
-@PreAuthorize("hasRole('ADMIN')")
 public class ArticleController {
     private final ArticleService articleService;
+    @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Article article){
         articleService.create(article);
         return ResponseEntity.ok(article);
     }
     @GetMapping
-    @PreAuthorize("hasRole('STAFF')")
     public ResponseEntity<?> getArticles(){
         return ResponseEntity.ok(articleService.getArticles());
     }

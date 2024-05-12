@@ -36,10 +36,10 @@ public class TokenVerify extends OncePerRequestFilter {
             filterChain.doFilter(request,response);
             return;
         }
-        log.info(authHeader);
-        // get token
-        String token = authHeader.replace("Bearer","");
 
+        // get token
+        String token = authHeader.replace("Bearer ","");
+        log.info(token);
         String secretKey = "dofwsjfoekskdfjowjlksdjfaweosdlf99djfljsdafo392jsdfjaoweifkasljfwe0";
 
         // extract token
