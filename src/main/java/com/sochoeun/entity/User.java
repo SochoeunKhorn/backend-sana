@@ -1,5 +1,6 @@
 package com.sochoeun.entity;
 
+import com.sochoeun.security.RoleEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,6 +21,7 @@ public class User {
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
     private boolean enabled;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    //@ManyToMany(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private RoleEnum roles;
 }

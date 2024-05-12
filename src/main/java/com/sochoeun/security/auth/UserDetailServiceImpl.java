@@ -10,9 +10,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserDetailServiceImpl implements UserDetailsService {
     private final UserServiceFakeImpl userServiceFake;
+    private final UserServiceImpl userService;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userServiceFake.findUserByUsername(username)
+        return userService.findUserByUsername(username)
                 .orElseThrow(()-> new UsernameNotFoundException("User Not Found"));
     }
 }

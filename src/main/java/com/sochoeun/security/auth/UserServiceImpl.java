@@ -1,0 +1,39 @@
+package com.sochoeun.security.auth;
+
+import com.sochoeun.entity.User;
+import com.sochoeun.exception.ApiException;
+import com.sochoeun.repository.UserRepository;
+import com.sochoeun.security.PasswordConfig;
+import com.sochoeun.security.RoleEnum;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+@Primary
+@Service
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService{
+    //private final PasswordConfig passwordConfig;
+    private final UserRepository userRepository;
+    @Override
+    public Optional<UserDetailImpl> findUserByUsername(String username) {
+        User user = userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User Not Found"));
+        // mapper user to UserDetailImpl
+        UserDetailImpl userDetail =
+                UserDetailImpl.builder()
+                        .username(user.getUsername())
+                        .password(user.getPassword())
+                        .authorities(user.getRoles().getAuthorities())
+                        .accountNonExpired(user.isAccountNonExpired())
+                        .accountNonLocked(user.isAccountNonLocked())
+                        .credentialNonExpired(user.isAccountNonExpired())
+                        .enable(user.isEnabled())
+                        .build();
+        return Optional.ofNullable(userDetail);
+    }
+}

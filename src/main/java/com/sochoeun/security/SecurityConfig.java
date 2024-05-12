@@ -57,7 +57,7 @@ public class SecurityConfig {
         return http.build();
     }
     // using UserServiceFakeImpl
-    // authentication provider for provide UserDetailsService
+    // authentication provider for provides UserDetailsService
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider getAuthenticationProvider = new DaoAuthenticationProvider();
