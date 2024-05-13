@@ -17,6 +17,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -64,7 +65,7 @@ public class JwtFilter extends UsernamePasswordAuthenticationFilter {
                 .setSubject(authResult.getName()) // who log in
                 .setIssuedAt(new Date())
                 .claim("authorities", authResult.getAuthorities())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(7)))
                 .setIssuer("backendapi.com")
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .compact();// compact will return -> string
