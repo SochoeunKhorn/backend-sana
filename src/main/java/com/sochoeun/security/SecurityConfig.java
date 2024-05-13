@@ -1,13 +1,11 @@
 package com.sochoeun.security;
 
-import com.sochoeun.entity.Permission;
 import com.sochoeun.security.auth.UserDetailServiceImpl;
 import com.sochoeun.security.jwtUtil.JwtFilter;
 import com.sochoeun.security.jwtUtil.TokenVerify;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -17,15 +15,9 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.http.HttpMethod.*;
-
+import static org.springframework.http.HttpMethod.GET;
 
 @Configuration
 @EnableWebSecurity
@@ -41,10 +33,10 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize ->{
                         authorize
-                                .requestMatchers("/swagger-ui.html/**", "/swagger-ui/**", "/v3/api-docs/**","/categories/**")
-                                .permitAll()
-                                .requestMatchers(GET,"/articles").hasAnyRole(RoleEnum.STAFF.name(),RoleEnum.ADMIN.name())
-                                .requestMatchers("/articles/**").hasRole(RoleEnum.ADMIN.name())
+                                //.requestMatchers("/swagger-ui.html/**", "/swagger-ui/**", "/v3/api-docs/**","/categories/**")
+                                //.permitAll()
+                                //.requestMatchers(GET,"/articles").hasRole(RoleEnum.STAFF.name())
+                                //.requestMatchers("/articles/**").hasRole(RoleEnum.ADMIN.name())
                                 .anyRequest()
                                 .authenticated();
                 })

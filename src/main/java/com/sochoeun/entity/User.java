@@ -21,7 +21,8 @@ public class User {
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
     private boolean enabled;
-    //@ManyToMany(fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING)
-    private RoleEnum roles;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    //@Enumerated(EnumType.STRING)
+    private Set<Role> roles;
 }
