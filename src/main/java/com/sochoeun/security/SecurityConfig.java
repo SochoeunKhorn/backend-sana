@@ -17,7 +17,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.http.HttpMethod.GET;
 
 @Configuration
 @EnableWebSecurity
@@ -33,10 +32,6 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize ->{
                         authorize
-                                //.requestMatchers("/swagger-ui.html/**", "/swagger-ui/**", "/v3/api-docs/**","/categories/**")
-                                //.permitAll()
-                                //.requestMatchers(GET,"/articles").hasRole(RoleEnum.STAFF.name())
-                                //.requestMatchers("/articles/**").hasRole(RoleEnum.ADMIN.name())
                                 .anyRequest()
                                 .authenticated();
                 })
